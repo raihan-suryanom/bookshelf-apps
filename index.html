@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Bookshelf Apps | Rey</title>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <!-- Font Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- My CSS -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="header__nav">
+      <h1 class="app__name">Bookshelf Apps</h1>
+      <input
+        class="input"
+        placeholder="Find book..."
+        type="search"
+        name="find_book"
+        id="find_book"
+        spellcheck="false"
+      />
+    </header>
+    <main>
+      <form class="form" onsubmit="">
+        <h2 class="header">Input a new book</h2>
+        <input
+          class="input book__input"
+          type="text"
+          name="title"
+          id="title"
+          placeholder="Title"
+          spellcheck="false"
+        />
+        <input
+          class="input book__input"
+          type="text"
+          name="author"
+          id="author"
+          placeholder="Author"
+          spellcheck="false"
+        />
+        <input
+          class="input book__input"
+          type="number"
+          name="year"
+          id="year"
+          placeholder="Year"
+          spellcheck="false"
+        />
+        <button type="submit">Create a book</button>
+      </form>
+      <section></section>
+    </main>
+    <script src="main.js"></script>
+  </body>
+</html>

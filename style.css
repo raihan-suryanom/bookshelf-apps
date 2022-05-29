@@ -1,0 +1,64 @@
+:root {
+  --primary: #ffe227;
+  --dark: #121013;
+  --light: #f2f2f2;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--dark);
+  color: var(--primary);
+}
+
+main {
+  padding: 3rem 12rem;
+}
+
+.header__nav {
+  border-bottom: 2px solid var(--primary);
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+}
+
+.app__name {
+  font-weight: 800;
+}
+
+.input {
+  padding: 0.5rem 1rem;
+  background-color: transparent;
+  outline: none;
+  color: var(--primary);
+  border: none;
+  font-size: larger;
+  border-bottom: 2px solid var(--primary);
+}
+
+.input::placeholder {
+  color: var(--light);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 0 12rem;
+}
+
+.header {
+  text-align: center;
+  font-weight: 800;
+  font-size: 2rem;
+}
+
+.book__input {
+  border: 2px solid var(--primary);
+  border-radius: 0.5rem;
+}
