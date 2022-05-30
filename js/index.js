@@ -1,15 +1,13 @@
 const books = [];
 const RENDER_EVENT = 'render-book';
 
-function generateId() {
-  return new Date().toISOString();
-}
+const generateId = () => new Date().toISOString();
 
-const bookTemplate = ({ title, author, year, didRead }) => {
+const bookTemplate = ({ id, title, author, year, didRead }) => {
   const btnMessage = didRead ? 'Selesai dibaca' : 'Belum Selesai dibaca';
 
   return `
-    <article>
+    <article id="${id}">
       <header>
         <h3>${title}</h3>
         <p>Penulis: ${author}</p>
@@ -19,7 +17,7 @@ const bookTemplate = ({ title, author, year, didRead }) => {
         <button data-action="read" type="button">
           ${btnMessage}
         </button>
-        <button data-action="delete" type="button">
+        <button onclick="deleteBookshelf(id)" data-action="delete" type="button">
           Hapus
         </button>
       </footer>
@@ -40,7 +38,13 @@ const addBookshelf = (event) => {
     }
   });
 
-  books.push(bookForm);
+  books.push({ id: generateId(), ...bookForm });
+  document.dispatchEvent(new Event(RENDER_EVENT));
+};
+
+const deleteBookshelf = (bookId) => {
+  const targetedBook = books.findIndex((book) => book.id === bookId);
+  books.splice(targetedBook, 1);
   document.dispatchEvent(new Event(RENDER_EVENT));
 };
 
