@@ -32,9 +32,9 @@ const loadDataFromStorage = () => {
 
 const generateId = () => new Date().toISOString();
 
-const bookTemplate = ({ id, title, author, year, didRead }) => {
-  const btnMessage = !didRead ? 'Selesai dibaca' : 'Belum Selesai dibaca';
-  const status = didRead ? 'read' : 'unread';
+const bookTemplate = ({ id, title, author, year, isComplete }) => {
+  const btnMessage = !isComplete ? 'Selesai dibaca' : 'Belum Selesai dibaca';
+  const status = isComplete ? 'read' : 'unread';
 
   return `
     <article>
@@ -64,7 +64,7 @@ const addBookshelf = (event) => {
     const { name } = book;
 
     if (name) {
-      bookForm[name] = name === 'didRead' ? book.checked : book.value;
+      bookForm[name] = name === 'isComplete' ? book.checked : book.value;
     }
   });
 
@@ -84,7 +84,10 @@ const deleteBookshelf = (bookId) => {
 const toggleStatus = (bookId) => {
   const targetedBook = books.findIndex((book) => book.id === bookId);
   const findBook = books.find((book) => book.id === bookId);
-  books.splice(targetedBook, 1, { ...findBook, didRead: !findBook.didRead });
+  books.splice(targetedBook, 1, {
+    ...findBook,
+    isComplete: !findBook.isComplete,
+  });
   foundBooks = books;
   document.dispatchEvent(new Event(RENDER_EVENT));
   saveData();
@@ -103,7 +106,7 @@ const searchBooks = (event) => {
 
 document.addEventListener('DOMContentLoaded', () => {
   // Apply onchange event on checkbox
-  const readToggle = document.getElementById('didRead');
+  const readToggle = document.getElementById('isComplete');
   const submitButton = document.getElementById('submit_form');
   readToggle.addEventListener('change', () => {
     submitButton.value = readToggle.checked
@@ -139,13 +142,15 @@ document.addEventListener(RENDER_EVENT, () => {
   finishedSpan.innerHTML = '';
 
   // Update each total book
-  const totalFinishedBook = currentTarget.filter((book) => book.didRead).length;
+  const totalFinishedBook = currentTarget.filter(
+    (book) => book.isComplete
+  ).length;
   const sumTotalOfBook = currentTarget.length - totalFinishedBook;
   unfinishedSpan.textContent = sumTotalOfBook ? `(${sumTotalOfBook})` : '';
   finishedSpan.textContent = totalFinishedBook ? `(${totalFinishedBook})` : '';
 
   currentTarget.forEach((book) => {
-    if (book.didRead) {
+    if (book.isComplete) {
       finishedContainer.insertAdjacentHTML('beforeend', bookTemplate(book));
     } else {
       unfinishedContainer.insertAdjacentHTML('beforeend', bookTemplate(book));
