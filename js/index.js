@@ -79,6 +79,7 @@ const deleteBookshelf = (bookId) => {
   books.splice(targetedBook, 1);
   document.dispatchEvent(new Event(RENDER_EVENT));
   saveData();
+  confirm('Berhasil menghapus buku.');
 };
 
 const toggleStatus = (bookId) => {
