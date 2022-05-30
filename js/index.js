@@ -1,6 +1,34 @@
 const books = [];
 let foundBooks = [];
 const RENDER_EVENT = 'render-book';
+const STORAGE_KEY = 'BOOKS_APPS';
+
+// Local Storage
+const isStorageExist = () => {
+  if (typeof Storage === undefined) {
+    alert('Browser ini tidak mendukung local storage.');
+    return false;
+  }
+  return true;
+};
+
+const saveData = () => {
+  if (isStorageExist()) {
+    const parsed = JSON.stringify(books);
+    localStorage.setItem(STORAGE_KEY, parsed);
+  }
+};
+
+const loadDataFromStorage = () => {
+  const serializedData = localStorage.getItem(STORAGE_KEY);
+  let data = JSON.parse(serializedData);
+
+  if (data !== null) {
+    data.forEach((book) => books.push(book));
+  }
+
+  document.dispatchEvent(new Event(RENDER_EVENT));
+};
 
 const generateId = () => new Date().toISOString();
 
@@ -43,19 +71,23 @@ const addBookshelf = (event) => {
   books.push({ id: generateId(), ...bookForm });
   foundBooks = books;
   document.dispatchEvent(new Event(RENDER_EVENT));
+  saveData();
 };
 
 const deleteBookshelf = (bookId) => {
   const targetedBook = books.findIndex((book) => book.id === bookId);
   books.splice(targetedBook, 1);
   document.dispatchEvent(new Event(RENDER_EVENT));
+  saveData();
 };
 
 const toggleStatus = (bookId) => {
   const targetedBook = books.findIndex((book) => book.id === bookId);
   const findBook = books.find((book) => book.id === bookId);
   books.splice(targetedBook, 1, { ...findBook, didRead: !findBook.didRead });
+  foundBooks = books;
   document.dispatchEvent(new Event(RENDER_EVENT));
+  saveData();
 };
 
 const searchBooks = (event) => {
@@ -86,6 +118,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // Apply onchange event on search bar
   const searchBar = document.getElementById('find_book');
   searchBar.addEventListener('keypress', searchBooks);
+
+  if (isStorageExist()) {
+    loadDataFromStorage();
+  }
 });
 
 document.addEventListener(RENDER_EVENT, () => {
@@ -93,15 +129,16 @@ document.addEventListener(RENDER_EVENT, () => {
   const finishedContainer = document.getElementById('finished');
   const unfinishedSpan = unfinishedContainer.previousElementSibling.lastChild;
   const finishedSpan = finishedContainer.previousElementSibling.lastChild;
-  const currentTarget = foundBooks || books;
+  const queryElement = document.getElementById('find_book').value;
+  const currentTarget = queryElement ? foundBooks : books;
 
-  // clearing elements
+  // Clearing elements
   unfinishedContainer.innerHTML = '';
   finishedContainer.innerHTML = '';
   unfinishedSpan.innerHTML = '';
   finishedSpan.innerHTML = '';
 
-  // update each total book
+  // Update each total book
   const totalFinishedBook = currentTarget.filter((book) => book.didRead).length;
   const sumTotalOfBook = currentTarget.length - totalFinishedBook;
   unfinishedSpan.textContent = sumTotalOfBook ? `(${sumTotalOfBook})` : '';
