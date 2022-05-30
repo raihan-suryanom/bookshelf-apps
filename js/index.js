@@ -1,10 +1,11 @@
 const books = [];
+let foundBooks = [];
 const RENDER_EVENT = 'render-book';
 
 const generateId = () => new Date().toISOString();
 
 const bookTemplate = ({ id, title, author, year, didRead }) => {
-  const btnMessage = didRead ? 'Selesai dibaca' : 'Belum Selesai dibaca';
+  const btnMessage = !didRead ? 'Selesai dibaca' : 'Belum Selesai dibaca';
   const status = didRead ? 'read' : 'unread';
 
   return `
@@ -15,14 +16,14 @@ const bookTemplate = ({ id, title, author, year, didRead }) => {
         <p>Tahun: ${year}</p>
       </header>
       <footer>
-        <button id="${id}" onclick="toggleStatus(id)" data-action="${status}" type="button">
+      <button id="${id}" onclick="toggleStatus(id)" data-action="${status}" type="button">
           ${btnMessage}
-        </button>
+          </button>
         <button id="${id}" onclick="deleteBookshelf(id)" data-action="delete" type="button">
-          Hapus
+        Hapus
         </button>
       </footer>
-    </article>`;
+      </article>`;
 };
 
 const addBookshelf = (event) => {
@@ -40,6 +41,7 @@ const addBookshelf = (event) => {
   });
 
   books.push({ id: generateId(), ...bookForm });
+  foundBooks = books;
   document.dispatchEvent(new Event(RENDER_EVENT));
 };
 
@@ -56,6 +58,17 @@ const toggleStatus = (bookId) => {
   document.dispatchEvent(new Event(RENDER_EVENT));
 };
 
+const searchBooks = (event) => {
+  if (event.code === 'Enter') {
+    const query = event.target.value;
+    foundBooks = [];
+    foundBooks = books.filter(({ title }) =>
+      title.toLowerCase().includes(query.toLowerCase())
+    );
+    document.dispatchEvent(new Event(RENDER_EVENT));
+  }
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   // Apply onchange event on checkbox
   const readToggle = document.getElementById('didRead');
@@ -69,6 +82,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // Apply onsubmit event on form
   const submitForm = document.getElementById('book_form');
   submitForm.addEventListener('submit', addBookshelf);
+
+  // Apply onchange event on search bar
+  const searchBar = document.getElementById('find_book');
+  searchBar.addEventListener('keypress', searchBooks);
 });
 
 document.addEventListener(RENDER_EVENT, () => {
@@ -76,6 +93,7 @@ document.addEventListener(RENDER_EVENT, () => {
   const finishedContainer = document.getElementById('finished');
   const unfinishedSpan = unfinishedContainer.previousElementSibling.lastChild;
   const finishedSpan = finishedContainer.previousElementSibling.lastChild;
+  const currentTarget = foundBooks || books;
 
   // clearing elements
   unfinishedContainer.innerHTML = '';
@@ -84,14 +102,12 @@ document.addEventListener(RENDER_EVENT, () => {
   finishedSpan.innerHTML = '';
 
   // update each total book
-  const totalFinishedBook = books.filter((book) => book.didRead).length;
-  const sumTotalOfBook = books.length - totalFinishedBook;
-  unfinishedSpan.textContent = sumTotalOfBook
-    ? `(${books.length - totalFinishedBook})`
-    : '';
+  const totalFinishedBook = currentTarget.filter((book) => book.didRead).length;
+  const sumTotalOfBook = currentTarget.length - totalFinishedBook;
+  unfinishedSpan.textContent = sumTotalOfBook ? `(${sumTotalOfBook})` : '';
   finishedSpan.textContent = totalFinishedBook ? `(${totalFinishedBook})` : '';
 
-  books.forEach((book) => {
+  currentTarget.forEach((book) => {
     if (book.didRead) {
       finishedContainer.insertAdjacentHTML('beforeend', bookTemplate(book));
     } else {
