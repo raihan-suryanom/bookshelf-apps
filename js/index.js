@@ -73,15 +73,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
 document.addEventListener(RENDER_EVENT, () => {
   const unfinishedContainer = document.getElementById('unfinished');
-  const readContainer = document.getElementById('finished');
+  const finishedContainer = document.getElementById('finished');
+  const unfinishedSpan = unfinishedContainer.previousElementSibling.lastChild;
+  const finishedSpan = finishedContainer.previousElementSibling.lastChild;
 
-  // clearing book list
+  // clearing elements
   unfinishedContainer.innerHTML = '';
-  readContainer.innerHTML = '';
+  finishedContainer.innerHTML = '';
+  unfinishedSpan.innerHTML = '';
+  finishedSpan.innerHTML = '';
+
+  // update each total book
+  const totalFinishedBook = books.filter((book) => book.didRead).length;
+  const sumTotalOfBook = books.length - totalFinishedBook;
+  unfinishedSpan.textContent = sumTotalOfBook
+    ? `(${books.length - totalFinishedBook})`
+    : '';
+  finishedSpan.textContent = totalFinishedBook ? `(${totalFinishedBook})` : '';
 
   books.forEach((book) => {
     if (book.didRead) {
-      readContainer.insertAdjacentHTML('beforeend', bookTemplate(book));
+      finishedContainer.insertAdjacentHTML('beforeend', bookTemplate(book));
     } else {
       unfinishedContainer.insertAdjacentHTML('beforeend', bookTemplate(book));
     }
