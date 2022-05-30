@@ -1,0 +1,31 @@
+button {
+  background-color: transparent;
+  flex: 1;
+  text-align: center;
+  text-transform: capitalize;
+  padding: 0.5em 2em;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: var(--dark);
+}
+
+button[data-action='delete'] {
+  color: #fd5d5d;
+}
+
+button[data-action='read'],
+button[data-action='unread'] {
+  color: #49ff00;
+}
+
+button[data-action='delete']:hover {
+  color: var(--dark);
+  background-color: #fd5d5d;
+}
+
+button[data-action='read']:hover,
+button[data-action='unread']:hover {
+  color: var(--dark);
+  background-color: #49ff00;
+}

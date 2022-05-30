@@ -1,0 +1,47 @@
+section > div {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: minmax(min-content, max-content);
+  gap: 16px;
+}
+
+section > h2.header {
+  text-align: left;
+  border-bottom: 2px solid var(--primary);
+  margin-bottom: 1rem;
+}
+
+section > div > article {
+  max-width: 300px;
+  background-color: transparent;
+  border: 1px solid var(--primary);
+  border-radius: 0.4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: var(--light);
+  overflow: hidden;
+}
+
+section article > header {
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+section article > h3 {
+  font-weight: 600;
+  color: var(--primary);
+}
+
+section article > p {
+  font-size: 0.95em;
+}
+
+section article > footer {
+  border-top: 1px solid var(--primary);
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+}

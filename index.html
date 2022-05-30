@@ -18,7 +18,10 @@
     />
 
     <!-- My CSS -->
+    <link rel="stylesheet" href="./css/button.css" />
+    <link rel="stylesheet" href="./css/card.css" />
     <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/form.css" />
   </head>
   <body>
     <header class="header__nav">
@@ -33,10 +36,10 @@
       />
     </header>
     <main>
-      <form id="book_form" class="form">
+      <form id="book_form">
         <h2 class="header">Masukkan Buku Baru</h2>
         <input
-          class="input book__input"
+          class="input"
           type="text"
           name="title"
           id="title"
@@ -44,7 +47,7 @@
           spellcheck="false"
         />
         <input
-          class="input book__input"
+          class="input"
           type="text"
           name="author"
           id="author"
@@ -52,7 +55,7 @@
           spellcheck="false"
         />
         <input
-          class="input book__input"
+          class="input"
           type="number"
           name="year"
           id="year"
@@ -63,9 +66,9 @@
           <input type="checkbox" name="didRead" id="didRead" />
           Selesai dibaca
         </label>
-        <button class="btn" type="button">
+        <input type="submit" role="button">
           Masukkan Buku ke rak Belum Selesai Dibaca
-        </button>
+        </input>
       </form>
       <section class="section" id="pending">
         <h2 class="header">Belum selesai dibaca</h2>
