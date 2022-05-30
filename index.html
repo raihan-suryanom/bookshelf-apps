@@ -45,6 +45,7 @@
           id="title"
           placeholder="Judul"
           spellcheck="false"
+          required
         />
         <input
           class="input"
@@ -53,6 +54,7 @@
           id="author"
           placeholder="Penulis"
           spellcheck="false"
+          required
         />
         <input
           class="input"
@@ -61,36 +63,28 @@
           id="year"
           placeholder="Tahun"
           spellcheck="false"
+          required
         />
         <label for="didRead">
           <input type="checkbox" name="didRead" id="didRead" />
           Selesai dibaca
         </label>
-        <input type="submit" role="button">
-          Masukkan Buku ke rak Belum Selesai Dibaca
-        </input>
+        <input
+          id="submit_form"
+          type="submit"
+          role="button"
+          value="Masukkan Buku ke rak Belum Selesai Dibaca"
+        />
       </form>
-      <section class="section" id="pending">
+      <section class="section">
         <h2 class="header">Belum selesai dibaca</h2>
-        <div>
-          <article>
-            <header>
-              <h3>Test</h3>
-              <p>Penulis: F</p>
-              <p>Penulis: F</p>
-            </header>
-            <footer>
-              <button data-action="read" type="button">Selesai dibaca</button>
-              <button data-action="delete" type="button">Hapus</button>
-            </footer>
-          </article>
-        </div>
+        <div id="unfinished"></div>
       </section>
-      <section class="section" id="finished">
+      <section class="section">
         <h2 class="header">Selesai dibaca</h2>
-        <div></div>
+        <div id="finished"></div>
       </section>
     </main>
-    <script src="./js/main.js"></script>
+    <script src="./js/index.js"></script>
   </body>
 </html>
