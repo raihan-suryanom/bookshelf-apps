@@ -5,19 +5,20 @@ const generateId = () => new Date().toISOString();
 
 const bookTemplate = ({ id, title, author, year, didRead }) => {
   const btnMessage = didRead ? 'Selesai dibaca' : 'Belum Selesai dibaca';
+  const status = didRead ? 'read' : 'unread';
 
   return `
-    <article id="${id}">
+    <article>
       <header>
         <h3>${title}</h3>
         <p>Penulis: ${author}</p>
         <p>Tahun: ${year}</p>
       </header>
       <footer>
-        <button data-action="read" type="button">
+        <button id="${id}" onclick="toggleStatus(id)" data-action="${status}" type="button">
           ${btnMessage}
         </button>
-        <button onclick="deleteBookshelf(id)" data-action="delete" type="button">
+        <button id="${id}" onclick="deleteBookshelf(id)" data-action="delete" type="button">
           Hapus
         </button>
       </footer>
@@ -45,6 +46,13 @@ const addBookshelf = (event) => {
 const deleteBookshelf = (bookId) => {
   const targetedBook = books.findIndex((book) => book.id === bookId);
   books.splice(targetedBook, 1);
+  document.dispatchEvent(new Event(RENDER_EVENT));
+};
+
+const toggleStatus = (bookId) => {
+  const targetedBook = books.findIndex((book) => book.id === bookId);
+  const findBook = books.find((book) => book.id === bookId);
+  books.splice(targetedBook, 1, { ...findBook, didRead: !findBook.didRead });
   document.dispatchEvent(new Event(RENDER_EVENT));
 };
 
