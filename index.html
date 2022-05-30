@@ -67,8 +67,26 @@
           Masukkan Buku ke rak Belum Selesai Dibaca
         </button>
       </form>
-      <section id="pending"></section>
-      <section id="finished"></section>
+      <section class="section" id="pending">
+        <h2 class="header">Belum selesai dibaca</h2>
+        <div>
+          <article>
+            <header>
+              <h3>Test</h3>
+              <p>Penulis: F</p>
+              <p>Penulis: F</p>
+            </header>
+            <footer>
+              <button data-action="read" type="button">Selesai dibaca</button>
+              <button data-action="delete" type="button">Hapus</button>
+            </footer>
+          </article>
+        </div>
+      </section>
+      <section class="section" id="finished">
+        <h2 class="header">Selesai dibaca</h2>
+        <div></div>
+      </section>
     </main>
     <script src="./js/main.js"></script>
   </body>
